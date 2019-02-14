@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="bot_utils",
-    version="0.0.3",
+    version="0.0.4",
     author="Marcus Deh",
     author_email="deh.marcus@outlook.de",
     description="package containing methods and classes",

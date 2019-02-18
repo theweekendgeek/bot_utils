@@ -27,7 +27,7 @@ class Logger:
             'bot_id': self.bot_id,
             'message': str(message)
         }
-        requests.post('http://' + self.host + ':' + str(self.port) + '/logger/' + log_type, json=payload)
+        requests.post('http://' + str(self.host) + ':' + str(self.port) + '/logger/' + log_type, json=payload)
 
 
 class ConnectivityChecker:
@@ -36,7 +36,7 @@ class ConnectivityChecker:
     def __init__(self, error_reporter: typing.Callable[[str], typing.NoReturn]):
         self.error_reporter = error_reporter
 
-    def is_available(self, host: str, port: str) -> bool:
+    def is_available(self, host: str, port: int) -> bool:
         server_socket = None
         try:
             server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -50,3 +50,12 @@ class ConnectivityChecker:
         finally:
             if server_socket is not None:
                 server_socket.close()
+
+
+def get_relevant_keys(input_scheme, relevant_keys):
+    keys_found = []
+    for key in input_scheme:
+        for rel_key in relevant_keys:
+            if input_scheme[key] == rel_key:
+                keys_found.append(key)
+    return keys_found

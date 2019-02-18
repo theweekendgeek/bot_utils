@@ -50,3 +50,12 @@ class ConnectivityChecker:
         finally:
             if server_socket is not None:
                 server_socket.close()
+
+
+def get_relevant_keys(input_scheme, relevant_keys):
+    keys_found = []
+    for key in input_scheme:
+        for rel_key in relevant_keys:
+            if input_scheme[key] == rel_key:
+                keys_found.append(key)
+    return keys_found

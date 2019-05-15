@@ -103,5 +103,12 @@ rechtsformen = [
     "VVaG",
     "SE",
     "SCE",
-    "EWIV"
+    "EWIV",
+    "Corp.",
+    "Corp",
+    "Limited",
+    "Ltd.",
+    "Ltd",
+    "LLC",
+    "LLP"
 ]

@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="bot_utils",
-    version="0.0.7",
+    version="2.0.0",
     author="Marcus Deh",
     author_email="deh.marcus@outlook.de",
     description="package containing methods and classes",
@@ -18,5 +18,5 @@ setuptools.setup(
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],
-    install_requires=['requests'],
+    install_requires=['requests', 'pika'],
 )

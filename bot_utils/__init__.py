@@ -1,6 +1,8 @@
 import socket
 import requests
 import typing
+import pika
+
 name = "bot_utils"
 
 
@@ -50,6 +52,45 @@ class ConnectivityChecker:
         finally:
             if server_socket is not None:
                 server_socket.close()
+
+
+class aiPhilosBotHandler:
+    def __init__(self, username, password, host, amqp_port='5762', vhost='/'):
+        self.username = username
+        self.password = password
+        self.host = host
+        self.amqp_port = amqp_port
+        self.vhost = vhost
+        self.connection = None
+
+    def create_channel(self):
+        credentials = pika.PlainCredentials(self.username, self.password)
+
+        parameters = pika.ConnectionParameters(self.host,
+                                               self.amqp_port,
+                                               self.vhost,
+                                               credentials)
+        self.connection = pika.BlockingConnection(parameters=parameters)
+        channel = self.connection.channel()
+        channel.basic_qos(prefetch_count=100)
+        return channel
+
+    def subscribe(self, channel, to, on_message):
+        channel.basic_consume(queue=to, on_message_callback=on_message, auto_ack=False)
+        return channel
+
+    def start_consuming(self, channel):
+        channel.start_consuming()
+
+    def stop_consuming(self, channel):
+        channel.stop_consuming()
+
+    def close_connection(self):
+        if self.connection is not None:
+            self.connection.close()
+
+    def publish(self, channel, target, message, routing_key="*"):
+        channel.basic_publish(exchange=target, routing_key=routing_key, body=message.encode())
 
 
 def get_relevant_keys(input_scheme, relevant_keys):
